@@ -25,6 +25,3 @@ This repository contains the Django models that mirror a PostgreSQL schema. The 
     ```
 4. **Customize and extend** these models as needed for your project.
 
-## License
-
-This project is open-sourced for development and educational purposes.
