@@ -1,0 +1,1 @@
+# extractionapp-django-postgresql-schema
