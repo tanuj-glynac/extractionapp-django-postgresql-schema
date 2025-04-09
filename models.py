@@ -106,7 +106,6 @@ class MsDocument(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='ms_documents')
     integration = models.ForeignKey(Integration, on_delete=models.CASCADE, related_name='ms_documents')
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, related_name='ms_documents', blank=True, null=True)
-    activity_id = models.CharField(max_length=255)
     file_name = models.CharField(max_length=255)
     file_type = models.CharField(max_length=100, blank=True, null=True)
     user = models.CharField(max_length=255, blank=True, null=True)
@@ -116,7 +115,22 @@ class MsDocument(models.Model):
 
     def __str__(self):
         return self.file_name
+        
+class DocumentActivity(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='document_activities')
+    integration = models.ForeignKey(Integration, on_delete=models.CASCADE, related_name='document_activities')
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, related_name='document_activities', blank=True, null=True)
+    activity_id = models.CharField(max_length=255, unique=True)
+    file_name = models.CharField(max_length=255)
+    file_type = models.CharField(max_length=100, blank=True, null=True)
+    user_name = models.CharField(max_length=255, blank=True, null=True)
+    timestamp = models.DateTimeField(blank=True, null=True)
+    date_extracted = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.file_name} by {self.user_name}"
 
 class MsEmail(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
